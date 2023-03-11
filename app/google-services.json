@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "55233466124",
+    "project_id": "multifunctionalnoteapp",
+    "storage_bucket": "multifunctionalnoteapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55233466124:android:1788cacb6d055ee0a30329",
+        "android_client_info": {
+          "package_name": "com.sevbanbayir.multifunctionalnoteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55233466124-8pnosn23c74a3nva3vl4fpvvrksk6lkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcicD0my7cSeJXkoQlma7OMgMfIHUGSLg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55233466124-8pnosn23c74a3nva3vl4fpvvrksk6lkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
