@@ -26,7 +26,7 @@ fun NoteItem(item: Note, onClickDeleteIcon: () -> Unit, onClick:() -> Unit) {
         .fillMaxWidth()
         .padding(16.dp)
         .clickable( onClick = onClick)
-        .height(Random.nextInt(100,300).dp)
+        .height(item.height.dp)
         .clip(RoundedCornerShape(10.dp))
         .background(Color(item.color))
     ) {

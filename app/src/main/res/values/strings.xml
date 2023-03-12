@@ -1,0 +1,27 @@
+<resources>
+    <string name="project_title">My Notes</string>
+    <string name="app_name">MultiFunctionalNoteApp</string>"
+    <!-- Buttons -->
+    <string name="sort_color">Color</string>
+    <string name="sort_date">Date</string>
+    <string name="sort_title">Title</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
+
+    <!-- Errors -->
+    <string name="generic_error">Something wrong happened. Please try again.</string>
+    <string name="empty_note_title">Not title cannot be empty.</string>
+    <string name="empty_note_content">Not content cannot be empty.</string>
+
+    <!-- TextFields-->
+    <string name="title_hint">Enter note title \.\.\.</string>
+    <string name="content_hint">Enter note content \.\.\.</string>
+
+    <!--Content Descriptions-->
+    <string name="save_button_cd">Save Floating Action Button</string>
+    <string name="add_fab_cd">Add Floating Action Button</string>
+
+    <!-- Information -->
+    <string name="note_saved"> Note successfully saved.</string>
+    <string name="note_updated"> Note successfully updated.</string>
+</resources>

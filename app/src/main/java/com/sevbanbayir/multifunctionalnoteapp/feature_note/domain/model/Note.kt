@@ -1,5 +1,6 @@
 package com.sevbanbayir.multifunctionalnoteapp.feature_note.domain.model
 
+import androidx.compose.ui.unit.Dp
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.presentation.ui.theme.*
@@ -12,6 +13,7 @@ data class Note(
     val content: String,
     val color: Int,
     val date: Long = System.currentTimeMillis(),
+    val height: Int
 ) {
     companion object {
         val noteColors = listOf(DarkYellow, Beije, Green, BabyBlue, Orange)

@@ -2,6 +2,8 @@ package com.sevbanbayir.multifunctionalnoteapp.feature_note.presentation.add_edi
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +13,11 @@ import com.sevbanbayir.multifunctionalnoteapp.common.presentation.snackbar.Snack
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.domain.model.Note
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.domain.use_case.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
@@ -37,7 +42,10 @@ class AddEditNoteViewModel @Inject constructor(
     var noteColor = mutableStateOf(Note.noteColors.random().toArgb())
         private set
 
-    private var currentNoteId: Int? = null
+    private val _noteItemHeightState = MutableStateFlow(Random.nextInt(100,300))
+    val noteItemHeightState : StateFlow<Int> = _noteItemHeightState
+
+    var currentNoteId: Int? = null
 
     init {
         savedStateHandle.get<Int>("noteId")?.let { noteId ->
@@ -55,6 +63,7 @@ class AddEditNoteViewModel @Inject constructor(
                             isHintVisible = false
                         )
                         noteColor.value = note.color
+                        _noteItemHeightState.value = note.height
                     }
                 }
             }
@@ -62,6 +71,7 @@ class AddEditNoteViewModel @Inject constructor(
     }
 
     fun onEvent(event: AddEditNoteEvent) {
+        println("Evenet: $event")
         when (event) {
             is AddEditNoteEvent.EnteredTitle -> {
                 noteTitle.value = noteTitle.value.copy(
@@ -91,8 +101,11 @@ class AddEditNoteViewModel @Inject constructor(
                                 title = noteTitle.value.text,
                                 content = noteContent.value.text,
                                 color = noteColor.value,
+                                height = noteItemHeightState.value
                             )
                         )
+                        SnackbarManager.showMessage(R.string.note_saved)
+
                     } catch (e: java.lang.Exception) {
                         SnackbarManager.showMessage(
                             SnackbarMessage.StringSnackbar(e.message.toString())
@@ -105,6 +118,26 @@ class AddEditNoteViewModel @Inject constructor(
                     isHintVisible = !event.focusState.isFocused &&
                             noteContent.value.text.isBlank()
                 )
+            }
+            is AddEditNoteEvent.UpdateNote -> {
+                viewModelScope.launch {
+                    try {
+                        noteUseCases.updateNote(
+                            Note(
+                                id = currentNoteId,
+                                title = noteTitle.value.text,
+                                content = noteContent.value.text,
+                                color = noteColor.value,
+                                height = noteItemHeightState.value
+                            )
+                        )
+                        SnackbarManager.showMessage(R.string.note_updated)
+                    } catch (e: java.lang.Exception) {
+                        SnackbarManager.showMessage(
+                            SnackbarMessage.StringSnackbar(e.message.toString())
+                        )
+                    }
+                }
             }
         }
     }

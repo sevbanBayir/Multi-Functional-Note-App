@@ -14,9 +14,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -28,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sevbanbayir.multifunctionalnoteapp.R
+import com.sevbanbayir.multifunctionalnoteapp.common.presentation.snackbar.SnackbarManager
+import com.sevbanbayir.multifunctionalnoteapp.common.presentation.snackbar.SnackbarMessage
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.domain.model.Note
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.presentation.add_edit_note.components.TransparentTextField
 import com.sevbanbayir.multifunctionalnoteapp.feature_note.presentation.ui.theme.LufgaFont
@@ -43,6 +43,7 @@ fun AddEditNoteScreen(
     val contentState = viewModel.noteContent.value
     val titleState = viewModel.noteTitle.value
     val noteColorState = viewModel.noteColor.value
+    val curNoteId by remember {mutableStateOf(viewModel.currentNoteId)}
 
     val noteBackgroundAnimatable = remember {
         Animatable(
@@ -57,8 +58,15 @@ fun AddEditNoteScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                    navigateBackToListScreen.invoke()
+                    try {
+                        if (curNoteId == -1 || curNoteId == null)
+                            viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                        else
+                            viewModel.onEvent(AddEditNoteEvent.UpdateNote)
+                        navigateBackToListScreen.invoke()
+                    } catch (e: Exception) {
+                        SnackbarManager.showMessage(SnackbarMessage.StringSnackbar(e.message.toString()))
+                    }
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
